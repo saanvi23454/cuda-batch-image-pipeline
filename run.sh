@@ -29,7 +29,13 @@ if ! ls "${INPUT_DIR}"/*.pgm >/dev/null 2>&1; then
   python3 scripts/generate_synthetic.py --out "${INPUT_DIR}" --count 24
 fi
 
-# 2. Build (Makefile honours CUDA_PATH / ARCH from the environment).
+# 2. Build (Makefile finds nvcc itself; CUDA_PATH / ARCH can override).
+if [[ -z "${CUDA_PATH:-}" ]] && ! command -v nvcc >/dev/null &&
+   ! ls /usr/local/cuda*/bin/nvcc >/dev/null 2>&1; then
+  echo "error: nvcc (CUDA toolkit) not found. Install the CUDA toolkit or"
+  echo "set CUDA_PATH=/path/to/cuda, then re-run."
+  exit 1
+fi
 make -j"$(nproc)"
 
 # 3. Run, keeping a full log as proof of execution.

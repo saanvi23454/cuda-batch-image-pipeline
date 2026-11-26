@@ -6,9 +6,13 @@
 #   make run             # run the pipeline on data/input
 #   make clean
 #
-# Override CUDA_PATH if the toolkit is not in /usr/local/cuda.
+# The CUDA toolkit is located automatically (nvcc on PATH, /usr/local/cuda,
+# or the newest /usr/local/cuda-*). Override with CUDA_PATH=/path/to/cuda.
 
-CUDA_PATH ?= /usr/local/cuda
+CUDA_CANDIDATES := $(patsubst %/bin/nvcc,%,$(realpath $(shell command -v nvcc 2>/dev/null))) \
+                   $(patsubst %/bin/nvcc,%,$(wildcard /usr/local/cuda/bin/nvcc)) \
+                   $(patsubst %/bin/nvcc,%,$(lastword $(sort $(wildcard /usr/local/cuda-*/bin/nvcc))))
+CUDA_PATH ?= $(firstword $(CUDA_CANDIDATES) /usr/local/cuda)
 NVCC      ?= $(CUDA_PATH)/bin/nvcc
 CXX       ?= g++
 
