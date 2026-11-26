@@ -152,7 +152,7 @@ Run in the Coursera GPU lab on an **NVIDIA L4** (compute capability 8.9, 58 SMs,
 | GPU batch wall time (incl. all host↔device copies) | **41.3 ms** (649.6 Mpixel/s) |
 | CPU reference (single thread) | 1955.2 ms (13.7 Mpixel/s) |
 | End-to-end speed-up | **47.3×** |
-| Per-image speed-up | ~22× for 256×256, ~180× for 1024×1024, ~190× for 2048×2048 |
+| Per-image speed-up (CPU time ÷ GPU latency) | up to ~22× for 256×256, up to ~180× for 1024×1024, ~185–195× for 2048×2048 |
 | Verification | **24/24 PASS** (equalization and Sobel bit-exact, blur PSNR ≥ 40 dB) |
 | One-time setup (CUDA context, buffers, cuFFT plans) | 1017.5 ms |
 
