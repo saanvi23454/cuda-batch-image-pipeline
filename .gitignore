@@ -2,3 +2,9 @@ bin/
 build/
 __pycache__/
 *.o
+# Large binary data: inputs are re-downloadable/re-generated, full-size
+# outputs go in proof_of_execution.tar.gz instead of git.
+data/input/*.pgm
+data/input/*.ppm
+results/output/*.pgm
+proof_of_execution.tar.gz

@@ -42,7 +42,8 @@ Image pre-processing for computer vision usually looks like this: lots of images
 ├── scripts/
 │   ├── fetch_sipi.py         downloads the USC-SIPI "misc" volume, converts it to PGM
 │   ├── generate_synthetic.py deterministic low-contrast test images (256² … 2048²)
-│   └── plot_results.py       timing / speed-up / gallery figures from metrics.csv
+│   ├── plot_results.py       timing / speed-up / gallery figures from metrics.csv
+│   └── package_proof.py      builds proof_of_execution.tar.gz (logs + before/after PNGs)
 ├── data/input/               input images (filled in by run.sh)
 └── results/                  proof of execution (log, CSV, output images, figures)
 ```
@@ -82,6 +83,19 @@ python3 scripts/generate_synthetic.py --out data/input --count 24
 ./bin/image_pipeline --input_dir=data/input --output_dir=results/output --sigma=2 --streams=4
 ```
 
+### Running on Google Colab (free GPU) instead of the course lab
+
+1. In a new notebook, choose **Runtime → Change runtime type → T4 GPU**.
+2. Run this in a cell:
+
+```bash
+!git clone https://github.com/saanvi23454/cuda-batch-image-pipeline.git
+%cd cuda-batch-image-pipeline
+!chmod +x run.sh && ./run.sh
+```
+
+3. Download `proof_of_execution.tar.gz` from the file browser on the left.
+
 ### Command-line flags
 
 | Flag | Default | Meaning |
@@ -118,14 +132,14 @@ Each image gets three independent checks, all recorded in `metrics.csv`:
 
 ## Proof of execution
 
-`run.sh` saves everything in `results/`, and all of it is committed to this repository:
+`run.sh` saves everything in `results/`. It also packs the logs and every before/after image (as PNG) into **`proof_of_execution.tar.gz`**, which is the file to upload to Coursera (`scripts/package_proof.py`). The logs, CSV and figures are committed here too. The full-resolution `.pgm` images are not, because of their size; `run.sh` regenerates them.
 
 | File | What it shows |
 |---|---|
 | `results/run_log.txt` | full console output: GPU model, CUDA versions, every image processed, summary, stream-scaling experiment |
 | `results/nvidia_smi.txt` | `nvidia-smi` output from the machine that ran the code |
 | `results/output/metrics.csv` | per-image GPU stage times, CPU stage times, verification metrics and PASS/FAIL |
-| `results/output/*_{equalized,blurred,edges}.pgm` | the output images |
+| `results/output/*_{equalized,blurred,edges}.pgm` | the output images (inside the tarball as `*_1_before_input.png` … `*_4_after_edges.png`) |
 | `results/timing_by_stage.png`, `results/speedup.png`, `results/gallery.png` | figures generated from the CSV |
 
 ### Results

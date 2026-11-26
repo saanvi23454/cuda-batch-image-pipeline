@@ -8,6 +8,7 @@
 # Everything that proves the run happened lands in results/:
 #   results/run_log.txt, results/nvidia_smi.txt, results/output/metrics.csv,
 #   results/output/*_{equalized,blurred,edges}.pgm and results/*.png
+# and proof_of_execution.tar.gz bundles them (as PNG) for upload.
 
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -56,4 +57,9 @@ python3 scripts/plot_results.py --results "${RESULTS_DIR}" \
   --input "${INPUT_DIR}" ||
   echo "Plotting skipped (pip install --user matplotlib pillow to enable)."
 
-echo "Done. See ${RESULTS_DIR}/ for logs, metrics and images."
+# 5. Upload-ready archive of logs + before/after images (needs Pillow).
+python3 scripts/package_proof.py --results "${RESULTS_DIR}" \
+  --input "${INPUT_DIR}" --out proof_of_execution.tar.gz ||
+  echo "Packaging skipped (pip install --user pillow to enable)."
+
+echo "Done. See ${RESULTS_DIR}/ and proof_of_execution.tar.gz"
