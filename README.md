@@ -185,10 +185,6 @@ What the numbers show:
 * Compare the custom Sobel kernel with NPP's `nppiFilterSobel*` and the histogram with `nppiHistogramEven`.
 * Extend to colour (equalize in YCbCr) and to video frames.
 
-## Short description (for the Coursera submission)
-
-I built a batch GPU image-processing pipeline in CUDA C++ that equalizes the histogram, blurs and edge-detects whole folders of images (USC-SIPI plus synthetic images up to 2048×2048). Histogram equalization uses a shared-memory histogram kernel with a CUB device-wide scan. The Gaussian blur runs in the frequency domain with cuFFT (R2C → analytic Gaussian transfer function → C2R). Sobel edges come from a shared-memory tiled kernel. Images go through several CUDA streams with pinned memory so transfers and kernels overlap. Every result is checked against a CPU implementation (bit-exact for equalization and Sobel, PSNR ≥ 40 dB for the FFT blur), and per-stage timings, speed-ups, logs and output images are committed to the repository as proof of execution.
-
 ## Attribution
 
 * Images: USC-SIPI Image Database, Miscellaneous volume (https://sipi.usc.edu/database/), plus generated synthetic images.
