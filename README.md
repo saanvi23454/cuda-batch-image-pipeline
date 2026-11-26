@@ -83,7 +83,7 @@ python3 scripts/generate_synthetic.py --out data/input --count 24
 ./bin/image_pipeline --input_dir=data/input --output_dir=results/output --sigma=2 --streams=4
 ```
 
-### Running on Google Colab (free GPU) instead of the course lab
+### Running on Google Colab
 
 1. In a new notebook, choose **Runtime → Change runtime type → T4 GPU**.
 2. Run this in a cell:
