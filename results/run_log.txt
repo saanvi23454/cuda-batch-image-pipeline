@@ -1,0 +1,46 @@
+Run started: 2026-11-26 12:14:48 UTC on 83d6f06664f3
+GPU 0: NVIDIA L4 (compute capability 8.9, 58 SMs, 22593 MiB), CUDA runtime 11.3, driver 12.6
+Images: 24 (26.85 Mpixel total) from data/input
+Config: sigma=2.00 streams=4 cpu_check=on
+[  1/24] synthetic_00_256x256           256x256   gpu    0.198 ms  cpu     4.378 ms  PASS
+[  2/24] synthetic_01_512x512           512x512   gpu    0.154 ms  cpu    17.363 ms  PASS
+[  3/24] synthetic_02_640x480           640x480   gpu    0.186 ms  cpu    19.914 ms  PASS
+[  4/24] synthetic_03_1023x769         1023x769   gpu    0.521 ms  cpu    53.811 ms  PASS
+[  5/24] synthetic_04_1024x1024        1024x1024  gpu    0.456 ms  cpu    81.494 ms  PASS
+[  6/24] synthetic_05_1920x1080        1920x1080  gpu    0.953 ms  cpu   137.196 ms  PASS
+[  7/24] synthetic_06_2048x2048        2048x2048  gpu    1.700 ms  cpu   331.774 ms  PASS
+[  8/24] synthetic_07_256x256           256x256   gpu    0.633 ms  cpu     4.253 ms  PASS
+[  9/24] synthetic_08_512x512           512x512   gpu    0.153 ms  cpu    16.946 ms  PASS
+[ 10/24] synthetic_09_640x480           640x480   gpu    0.180 ms  cpu    19.821 ms  PASS
+[ 11/24] synthetic_10_1023x769         1023x769   gpu    0.554 ms  cpu    52.884 ms  PASS
+[ 12/24] synthetic_11_1024x1024        1024x1024  gpu    0.617 ms  cpu    81.041 ms  PASS
+[ 13/24] synthetic_12_1920x1080        1920x1080  gpu    0.905 ms  cpu   133.907 ms  PASS
+[ 14/24] synthetic_13_2048x2048        2048x2048  gpu    1.752 ms  cpu   326.776 ms  PASS
+[ 15/24] synthetic_14_256x256           256x256   gpu    0.600 ms  cpu     4.251 ms  PASS
+[ 16/24] synthetic_15_512x512           512x512   gpu    1.812 ms  cpu    16.973 ms  PASS
+[ 17/24] synthetic_16_640x480           640x480   gpu    0.174 ms  cpu    19.821 ms  PASS
+[ 18/24] synthetic_17_1023x769         1023x769   gpu    0.558 ms  cpu    52.873 ms  PASS
+[ 19/24] synthetic_18_1024x1024        1024x1024  gpu    0.639 ms  cpu    80.980 ms  PASS
+[ 20/24] synthetic_19_1920x1080        1920x1080  gpu    0.888 ms  cpu   133.936 ms  PASS
+[ 21/24] synthetic_20_2048x2048        2048x2048  gpu    1.762 ms  cpu   323.812 ms  PASS
+[ 22/24] synthetic_21_256x256           256x256   gpu    0.631 ms  cpu     4.256 ms  PASS
+[ 23/24] synthetic_22_512x512           512x512   gpu    1.674 ms  cpu    16.965 ms  PASS
+[ 24/24] synthetic_23_640x480           640x480   gpu    1.672 ms  cpu    19.800 ms  PASS
+
+=== Summary ===
+GPU setup (alloc + cuFFT plans):    1017.48 ms
+GPU batch wall time (incl. copies):   41.33 ms  (649.6 Mpixel/s)
+CPU reference wall time:          1955.22 ms  (13.7 Mpixel/s)
+End-to-end speed-up:                 47.3x
+Verification: 24/24 images PASS
+Per-image metrics written to results/output/metrics.csv
+
+Stream scaling experiment (GPU only, no CPU check):
+--- streams=1
+GPU batch wall time (incl. copies):   49.38 ms  (543.8 Mpixel/s)
+--- streams=2
+GPU batch wall time (incl. copies):   43.60 ms  (615.8 Mpixel/s)
+--- streams=4
+GPU batch wall time (incl. copies):   41.11 ms  (653.1 Mpixel/s)
+--- streams=8
+GPU batch wall time (incl. copies):   39.79 ms  (674.8 Mpixel/s)

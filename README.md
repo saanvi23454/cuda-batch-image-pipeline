@@ -144,7 +144,31 @@ Each image gets three independent checks, all recorded in `metrics.csv`:
 
 ### Results
 
-The run log prints the GPU model, CUDA versions, the time for every image, the GPU vs. CPU batch time, the end-to-end speed-up, the PASS count, and the batch time with 1, 2, 4 and 8 streams. `metrics.csv` breaks this down per image and per stage. The full log, CSV, figures and before/after images from my run are in the proof-of-execution archive submitted with this project.
+Run in the Coursera GPU lab on an **NVIDIA L4** (compute capability 8.9, 58 SMs, CUDA runtime 11.3, driver 12.6). The full log is in [`results/run_log.txt`](results/run_log.txt).
+
+| Metric | Value |
+|---|---|
+| Images | 24 images, 256×256 to 2048×2048 (26.85 Mpixel total) |
+| GPU batch wall time (incl. all host↔device copies) | **41.3 ms** (649.6 Mpixel/s) |
+| CPU reference (single thread) | 1955.2 ms (13.7 Mpixel/s) |
+| End-to-end speed-up | **47.3×** |
+| Per-image speed-up | ~22× for 256×256, ~180× for 1024×1024, ~190× for 2048×2048 |
+| Verification | **24/24 PASS** (equalization and Sobel bit-exact, blur PSNR ≥ 40 dB) |
+| One-time setup (CUDA context, buffers, cuFFT plans) | 1017.5 ms |
+
+Stream scaling (same 24 images, GPU only):
+
+| Streams | 1 | 2 | 4 | 8 |
+|---|---|---|---|---|
+| Batch wall time (ms) | 49.38 | 43.60 | 41.11 | 39.79 |
+| Throughput (Mpixel/s) | 543.8 | 615.8 | 653.1 | 674.8 |
+
+What the numbers show:
+* **Speed-up grows with image size.** A 256×256 image has too little work to fill 58 SMs, so fixed costs (kernel launches, small copies) dominate. At 2048×2048 the GPU is busy and the gap to the CPU reaches about 190×.
+* **Streams help, but with diminishing returns.** Going from 1 to 8 streams cuts the batch time by 19%. The gain comes from overlapping one image's copies with another image's kernels. Beyond 4 streams there is little left to overlap.
+* **Setup dominates a small batch.** Creating the CUDA context and the cuFFT plans for 7 image sizes × 4 lanes took about 25× longer than processing the whole batch. A real service would create them once and reuse them across batches, which is why they are timed separately here.
+* **Per-image latency rises under concurrency.** Small images processed later in the batch show ~1.6 ms latencies instead of ~0.15 ms, because four lanes share the GPU. Overall throughput still improves, which is the trade-off streams make.
+* **PTX JIT at work.** The lab's CUDA 11.3 compiler does not know the L4's sm_89 architecture. The default build embeds PTX, and the driver compiled it for the L4 at load time. This is part of the one-time setup cost.
 
 ## Lessons learned and challenges
 
