@@ -144,21 +144,7 @@ Each image gets three independent checks, all recorded in `metrics.csv`:
 
 ### Results
 
-> Filled in from `results/run_log.txt` after running in the Coursera GPU lab.
-
-| Metric | Value |
-|---|---|
-| GPU | _see run_log.txt_ |
-| Images / total Mpixel | _…_ |
-| GPU batch wall time (incl. copies) | _…_ |
-| CPU reference wall time | _…_ |
-| End-to-end speed-up | _…_ |
-| Verification | _…/… PASS_ |
-| Streams 1 → 2 → 4 → 8 wall time | _…_ |
-
-![Gallery](results/gallery.png)
-![Per-stage timing](results/timing_by_stage.png)
-![Speed-up](results/speedup.png)
+The run log prints the GPU model, CUDA versions, the time for every image, the GPU vs. CPU batch time, the end-to-end speed-up, the PASS count, and the batch time with 1, 2, 4 and 8 streams. `metrics.csv` breaks this down per image and per stage. The full log, CSV, figures and before/after images from my run are in the proof-of-execution archive submitted with this project.
 
 ## Lessons learned and challenges
 
